@@ -12,7 +12,6 @@ const connection = mysql.createConnection({
     password: "password",
     database: "employee_trackerDB",
 });
-
 //connect to the mysql server and sql database
 connection.connect((err) => {
     if (err) {
@@ -32,18 +31,47 @@ function start() {
             choices: [
                 "View all Employees",
                 "View all Employees By Department",
-                "View all Employees By Manager",
+                "View all Employees by Role",
+                "View all Employees By Manager", //bonus
                 "Add Employee",
-                "Remove Employee",
+                "Remove Employee", //Bonus
                 "Update employee role",
-                "Update employee Manager"
-                //maybe exit ?
+                "Update employee Manager", // bonus
+                //"Delete Departments Roles and Employees"// Bonus 2 seperate functions
+                //"View the total utilized budget of a department " Bonus
+                "Exit"
             ]
-
         })
-        .then(answer => {
+        .then((answer) => {
+            switch (answer.action) {
+                case "View all Employees":
+                    viewEmployees();
+                    break;
+                case "View all Employees By Department":
+                    inquireDepartment();
+                    break;
+                case "View all Employees By Role":
+                    inquireRole();
+                    break;
+                case "View all Employees By Manager": //bonus
+                    inquireManager();
+                    break;
+                case "Add Employee":
+                    addEmployee();
+                    break;
+                case "Remove Employee": //Bonus delete employee departments and roles
+                    removeEmployee();
+                    break;
+                case "Update employee role":
+                    updateEmployee();
+                    break;
+                case "Update employee Manager": //Bonus
+                    updateEmployeeManager();
+                    break;
+                case "Exit":
+                    connection.end(); // no need to call this function as its a built in method.
+                    break;
+            }
 
-        })
+        });
 }
-
-//
