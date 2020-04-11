@@ -19,6 +19,31 @@ connection.connect((err) => {
         throw err;
     }
     // run the start function after the connection is made to prompt the user
-    // console.log("sql server connected")-- this console.log was to verify the server connection before starting witht the prompts
+    // console.log("sql server connected")-- this console.log was to verify the server connection before starting the prompts
     return start();
-})
+});
+
+function start() {
+    inquirer
+        .prompt({
+            name: "action",
+            type: "list",
+            message: "What would you like to do?",
+            choices: [
+                "View all Employees",
+                "View all Employees By Department",
+                "View all Employees By Manager",
+                "Add Employee",
+                "Remove Employee",
+                "Update employee role",
+                "Update employee Manager"
+                //maybe exit ?
+            ]
+
+        })
+        .then(answer => {
+
+        })
+}
+
+//
