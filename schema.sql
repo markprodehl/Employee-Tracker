@@ -16,6 +16,7 @@ title VARCHAR(30) NOT NULL,
 salary DECIMAL,
 department_id INT,
 PRIMARY KEY (id)
+-- FOREIGN KEY(department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (
@@ -25,6 +26,8 @@ last_name VARCHAR(30) NOT NULL,
 role_id INT,
 manager_id INT,
 PRIMARY KEY (id)
+-- FOREIGN KEY(role_id) REFERENCES role(id),
+-- FOREIGN KEY(manager_id) REFERENCES employee(id)
  );
  
  -- -----------------------------department
@@ -44,29 +47,29 @@ VALUES ("Management");
 -- ----------------------------roles
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Sales Rep", 70000, 100);
+VALUES ("Sales Rep", 70000, 1);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Engineer", 100000, 200);
+VALUES ("Engineer", 100000, 2);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Software Engineer", 120000, 300);
+VALUES ("Accountant", 120000, 2);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Junior Software Engineer", 70000, 400);
+VALUES ("Manager", 150000, 2);
 
  -- ------------------------------employees
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Mark", "Prodehl", "1", "10");
+VALUES ("Mark", "Prodehl", 3, null);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Jason", "Brown", "2", "20");
+VALUES ("Jason", "Brown", 1, 1);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Kevin", "Jackson", "3", "30");
+VALUES ("Kevin", "Jackson", 2, 1);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Tammy", "Green", "4", "0");
+VALUES ("Tammy", "Green", 4, 1);
 
 -- -----------------------
  
