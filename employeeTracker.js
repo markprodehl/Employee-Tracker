@@ -95,9 +95,10 @@ function start() {
                     connection.end();
                     break;
             }
-        });
-}
+        })
+};
 
+/// adding employees
 function addEmployee() {
     inquirer
         .prompt([{
@@ -112,12 +113,45 @@ function addEmployee() {
             },
             {
                 name: "roleId",
-                type: "list",
-                choices: ["Sales", "Engineer"]
-
+                type: "input",
+                message: "What is the employee's role ID?",
+                validate: (value) => (isNaN(value) ? "Enter a number." : true),
+            },
+            {
+                name: "managerId",
+                type: "input",
+                message: "What is the employee's manager's ID?",
+                validate: (value) => (isNaN(value) ? "Enter a number." : true),
             }
-
-
-
         ])
-}
+        .then((answer) => {
+            // add the new employee answers to the database 
+            const newEmployee = {
+                    //first_name is from db; firstName is from question
+                    first_name: answer.firstName,
+                    last_name: answer.lastName,
+                    role_id: answer.roleId,
+                    manager_id: answer.managerId,
+                }
+                //Now insert the newEmployee into the employee using those answers.
+            connection.query("INSERT INTO employee SET ?", newEmployee, function(err) {
+                if (err) {
+                    throw err;
+                }
+                console.log("new employee added")
+
+                viewEmployees();
+                start();
+            });
+        })
+};
+
+function viewEmployees() {
+    connection.query("SELECT * FROM employee", function(err, res) {
+        if (err) {
+            throw err;
+        }
+        console.table(res);
+        start();
+    });
+};

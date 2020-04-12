@@ -44,16 +44,16 @@ VALUES ("Management");
 -- ----------------------------roles
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Sales Rep", 70000, 1);
+VALUES ("Sales Rep", 70000, 100);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Engineer", 100000, 2);
+VALUES ("Engineer", 100000, 200);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Software Engineer", 120000, 3);
+VALUES ("Software Engineer", 120000, 300);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Junior Software Engineer", 70000, 4);
+VALUES ("Junior Software Engineer", 70000, 400);
 
  -- ------------------------------employees
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
