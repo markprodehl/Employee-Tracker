@@ -29,49 +29,75 @@ function start() {
             type: "list",
             message: "What would you like to do?",
             choices: [
-                "View all Employees",
+                "Add Department",
+                "Add Role",
+                "Add Employee",
+                ////////
                 "View all Employees By Department",
                 "View all Employees by Role",
-                "View all Employees By Manager", //bonus
-                "Add Employee",
-                "Remove Employee", //Bonus
+                "View all Employees",
                 "Update employee role",
-                "Update employee Manager", // bonus
-                //"Delete Departments Roles and Employees"// Bonus 2 seperate functions
-                //"View the total utilized budget of a department " Bonus
+
+                //BONUS BELOW///////////////////////
+                "Update employee Manager",
+                "View Employees By Manager",
+                ///////
+                "DELETE Department",
+                "DELETE Role",
+                "DELETE Employee",
+                //////
                 "Exit"
             ]
         })
         .then((answer) => {
             switch (answer.action) {
-                case "View all Employees":
-                    viewEmployees();
+                case "Add Department":
+                    addDepartment();
                     break;
+                case "Add Role":
+                    addRole();
+                case "Add Employee":
+                    addEmployee();
+                    break;
+                    /////////
                 case "View all Employees By Department":
                     inquireDepartment();
                     break;
                 case "View all Employees By Role":
                     inquireRole();
                     break;
-                case "View all Employees By Manager": //bonus
-                    inquireManager();
-                    break;
-                case "Add Employee":
-                    addEmployee();
-                    break;
-                case "Remove Employee": //Bonus also includes this "remove employee" plus delete departments and roles
-                    removeEmployee();
+                case "View all Employees":
+                    viewEmployees();
                     break;
                 case "Update employee role":
                     updateEmployee();
                     break;
-                case "Update employee Manager": //Bonus
+
+                    //BONUS BELOW/////////////////
+                case "Update employee Manager":
                     updateEmployeeManager();
                     break;
+                case "View Employees By Manager":
+                    inquireManager();
+                    break;
+                    //////
+                case "DELETE Department":
+                    deleteDepartment();
+                    break;
+                case "DELETE Role":
+                    deleteRole();
+                    break;
+                case "DELETE Employee":
+                    deleteEmployee();
+                    break
+                    ////////
                 case "Exit":
-                    connection.end(); // no need to call this function as its a built in method.
+                    connection.end();
                     break;
             }
-
         });
+}
+
+function viewEmployees() {
+
 }
