@@ -59,7 +59,7 @@ function start() {
                 case "Add Employee":
                     addEmployee();
                     break;
-                case "Remove Employee": //Bonus delete employee departments and roles
+                case "Remove Employee": //Bonus also includes this "remove employee" plus delete departments and roles
                     removeEmployee();
                     break;
                 case "Update employee role":
