@@ -98,6 +98,26 @@ function start() {
         });
 }
 
-function viewEmployees() {
+function addEmployee() {
+    inquirer
+        .prompt([{
+                name: "firstName",
+                type: "input",
+                message: "What is their first name?"
+            },
+            {
+                name: "lastName",
+                type: "input",
+                message: "What is their last name?"
+            },
+            {
+                name: "roleId",
+                type: "list",
+                choices: ["Sales", "Engineer"]
 
+            }
+
+
+
+        ])
 }
