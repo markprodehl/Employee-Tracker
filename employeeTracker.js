@@ -33,9 +33,9 @@ function start() {
                 "Add Role",
                 "Add Employee",
                 ////////
-                "View all Employees By Department",
-                "View all Employees by Role",
-                "View all Employees",
+                "View Departments",
+                "View Roles",
+                "View Employees",
                 "Update employee role",
 
                 //BONUS BELOW///////////////////////
@@ -61,15 +61,15 @@ function start() {
                     addEmployee();
                     break;
                     /////////
-                case "View all Employees By Department":
-                    inquireDepartment();
+                case "View Departments":
+                    viewAll('department');
                     break;
-                case "View all Employees By Role":
-                    inquireRole();
+                case "View Roles":
+                    viewAll('role');
                     break;
-                case "View all Employees":
+                case "View Employees":
                     // viewEmployees();
-                    viewAll('employee')
+                    viewAll('employee');
                     break;
                 case "Update employee role":
                     updateEmployee();
@@ -201,6 +201,7 @@ function updateValPairs(obj) {
 // }
 
 function returnAll(table, callback) {
+    console.log("returnAll -> callback", callback)
 
     connection.query("SELECT * FROM ??", [table], callback);
 }
