@@ -130,19 +130,19 @@ function updateEmployee() {
                     inquirer
                         .prompt([{
                                 name: 'first_name',
-                                message: "First Name?",
+                                message: "What is the employees First Name?",
                                 type: 'input',
                                 default: EMPLOYEE.first_name
                             },
                             {
                                 name: 'last_name',
-                                message: "Last Name?",
+                                message: "What is the employees Last Name?",
                                 type: 'input',
                                 default: EMPLOYEE.last_name
                             },
                             {
                                 name: 'role_id',
-                                message: "Role?",
+                                message: "what is the employees new Role?",
                                 type: 'list',
                                 // default: wants the index of choices array
                                 // to find the index, we search the choices array for match
@@ -152,7 +152,7 @@ function updateEmployee() {
                             },
                             {
                                 name: 'manager_id',
-                                message: "Manager?",
+                                message: "Who is the employees new Manager?",
                                 type: 'list',
                                 default: emp_choices.findIndex(emp => emp.manager_id === EMPLOYEE.manager_id),
                                 // remove selected employee from list of employees
@@ -201,7 +201,7 @@ function updateValPairs(obj) {
 // }
 
 function returnAll(table, callback) {
-    console.log("returnAll -> callback", callback)
+    // console.log("returnAll -> callback", callback)
 
     connection.query("SELECT * FROM ??", [table], callback);
 }
