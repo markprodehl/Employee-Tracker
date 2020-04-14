@@ -37,7 +37,6 @@ function start() {
                 "View Roles",
                 "View Employees",
                 "Update employee role",
-
                 //BONUS BELOW///////////////////////
                 "Update employee Manager",
                 "View Employees By Manager",
@@ -80,7 +79,7 @@ function start() {
                     updateEmployeeManager();
                     break;
                 case "View Employees By Manager":
-                    inquireManager();
+                    employeesByManager();
                     break;
                     //////
                 case "DELETE Department":
@@ -266,15 +265,7 @@ function viewAll(table) {
     });
 }
 // viewAll has replaced viewEmployee, viewRole, and view department
-function viewEmployees() {
-    connection.query("SELECT * FROM employee", function(err, res) {
-        if (err) {
-            throw err;
-        }
-        console.table(res);
-        start();
-    });
-};
+
 
 function addRole() {
     inquirer
@@ -315,16 +306,6 @@ function addRole() {
         })
 };
 
-function viewRoles() {
-    connection.query("SELECT * FROM role", function(err, res) {
-        if (err) {
-            throw err;
-        }
-        console.table(res);
-        start();
-    });
-};
-
 function addDepartment() {
     inquirer
         .prompt([{
@@ -350,8 +331,87 @@ function addDepartment() {
         })
 };
 
+function employeesByManager() {
+    returnAll('employee', function(err, employees) {
+        if (err) throw err;
+
+        const emp_choices = employees.map(row => ({
+            name: row.last_name + ", " + row.first_name,
+            // name: row.manager_id + " " + row.last_name + ", " + row.first_name,
+            value: row.id
+                ///add code here to filer managers only
+        }))
+
+
+        inquirer
+            .prompt({
+                name: "managers",
+                type: "list",
+                message: "Which manager would you like to view?",
+                choices: emp_choices
+
+            })
+    })
+}
+
+function deleteEmployee() {
+    connection.query("SELECT * FROM employee", function(req, res) {
+        //if (err) throw error;
+
+        const employeeNames = res.map(employee => {
+            return employee.first_name + " " + employee.last_name;
+        });
+        console.log(employeeNames);
+
+        inquirer
+            .prompt([{
+                name: "employeeName",
+                type: "list",
+                message: "Which employee would you like to delete?",
+                choices: employeeNames
+            }])
+            .then(function(answer) {
+                // console.log("inside .then", answer.employeeName);
+                const fullName = answer.employeeName
+
+                console.log(fullName)
+                connection.query(
+
+                    "DELETE FROM employee WHERE ? AND ?", [{ first_name: fullName[0] }, { last_name: fullName[1] }],
+                    function(err) {
+                        if (err) {
+                            throw (err);
+                        }
+                        console.log("Employee Deleted!")
+                    }
+                );
+                start();
+            })
+    })
+}
+
+function viewEmployees() {
+    connection.query("SELECT * FROM employee", function(err, res) {
+        if (err) {
+            throw err;
+        }
+        console.table(res);
+        start();
+    });
+};
+
 function viewDepartment() {
     connection.query("SELECT * FROM department", function(err, res) {
+        if (err) {
+            throw err;
+        }
+        console.table(res);
+        start();
+    });
+};
+
+function viewRoles() {
+    connection.query("SELECT * FROM role", function(err, res) {
         if (err) {
             throw err;
         }
