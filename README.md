@@ -3,7 +3,7 @@
             
  # Description:
             
- The Employee Tracker application is a business tool that tracks human resources. It allows the user to add and remove employees, assign employee roles, and keep track of employee managers. It includes functions to add and delete departments and roles as well as edit existing employees by assigning new roles and managers in one simple command line app. 
+ The Employee Tracker application is a business tool that tracks human resources. It allows the user to add and remove employees, assign employee roles, and keep track of employee managers. It includes functions to add and delete departments and roles as well as edit existing employees by assigning new roles and managers all in one simple command line app. 
             
  # Table Of Contents
             
