@@ -36,9 +36,8 @@ function start() {
                 "View Departments",
                 "View Roles",
                 "View Employees",
-                "Update employee role",
+                "Update employee Role and/or Manager",
                 //BONUS BELOW///////////////////////
-                "Update employee Manager",
                 "View Employees By Manager",
                 ///////
                 "DELETE Department",
@@ -69,14 +68,14 @@ function start() {
                 case "View Employees":
                     // viewEmployees();
                     let SQL = "SELECT "
-                    SQL += "employee.id, "
-                    SQL += "employee.first_name, "
-                    SQL += "employee.last_name, "
-                    SQL += "manager.first_name AS Manager_first_name, "
-                    SQL += "manager.last_name AS Manager_last_name, "
-                    SQL += "role.title,  "
-                    SQL += "role.salary,  "
-                    SQL += "department.name  "
+                    SQL += "employee.id AS ID, "
+                    SQL += "employee.first_name AS Name, "
+                    SQL += "employee.last_name AS Last_Name, "
+                    SQL += "manager.first_name AS Mgr_Name, "
+                    SQL += "manager.last_name AS Mgr_Last_Name, "
+                    SQL += "role.title AS Title,  "
+                    SQL += "role.salary AS Salary,  "
+                    SQL += "department.name AS Department_Name  "
                     SQL += "FROM employee "
                     SQL += "LEFT JOIN employee AS manager "
                     SQL += "ON employee.manager_id = manager.id "
@@ -93,14 +92,11 @@ function start() {
                         start()
                     })
                     break;
-                case "Update employee role":
+                case "Update employee Role and/or Manager":
                     updateEmployee();
                     break;
 
                     //BONUS BELOW/////////////////
-                case "Update employee Manager":
-                    updateEmployeeManager();
-                    break;
                 case "View Employees By Manager":
                     employeesByManager();
                     break;
@@ -361,7 +357,7 @@ function addDepartment() {
 };
 
 function employeesByManager() {
-    const condition = "role_id = 4"
+    const condition = "role_id = 5"
     returnByCondition('employee', condition, function(err, employees) {
         if (err) throw err;
 
@@ -380,7 +376,7 @@ function employeesByManager() {
                 choices: manager_choices
             })
             .then(answers => {
-                const previous = "SELECT employee.first_name, employee.last_name, manager.first_name AS manager FROM employee JOIN employee as manager ON employee.manager_id = manager.id WHERE manager.first_name = ?"
+
 
                 let SQL = "SELECT "
                 SQL += "employee.id, "
@@ -421,6 +417,31 @@ function deleteEmployee() {
                             throw (err);
                         }
                         console.log("Employee Deleted!")
+                        start();
+                    }
+                );
+            })
+    })
+}
+
+function deleteRole() {
+    connection.query("SELECT * FROM role", function(err, role) {
+        if (err) throw err;
+        inquirer
+            .prompt([{
+                name: "id",
+                type: "list",
+                message: "Which Role would you like to delete?",
+                choices: role.map(role => ({ name: role.title, value: role.id }))
+            }])
+            .then(function(answer) {
+
+                connection.query("DELETE FROM role WHERE id = ?", [answer.id],
+                    function(err) {
+                        if (err) {
+                            throw (err);
+                        }
+                        console.log("Role Deleted!")
                         start();
                     }
                 );
