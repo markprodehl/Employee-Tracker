@@ -21,7 +21,7 @@
             
  # Installation
             
- To install run ‘npm init’, then ‘npm install inquirer mysql’.
+ To install run ‘npm init’, then ‘npm install inquirer mysql’. Execute by running 'node index.js'
             
  # Usage
             
