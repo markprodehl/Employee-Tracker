@@ -449,37 +449,60 @@ function deleteRole() {
     })
 }
 
-function viewEmployees() {
-    connection.query("SELECT * FROM employee", function(err, res) {
-        if (err) {
-            throw err;
-        }
-        console.table(res);
-        start();
-    });
-};
+function deleteDepartment() {
+    connection.query("SELECT * FROM department", function(err, department) {
+        if (err) throw err;
+        inquirer
+            .prompt([{
+                name: "id",
+                type: "list",
+                message: "Which Department would you like to delete?",
+                choices: department.map(department => ({ name: department.name, value: department.id }))
+            }])
+            .then(function(answer) {
 
-function viewDepartment() {
-    connection.query("SELECT * FROM department", function(err, res) {
-        if (err) {
-            throw err;
-        }
-        console.table(res);
-        start();
-    });
-};
+                connection.query("DELETE FROM department WHERE id = ?", [answer.id],
+                    function(err) {
+                        if (err) {
+                            throw (err);
+                        }
+                        console.log("Department Deleted!")
+                        start();
+                    }
+                );
+            })
+    })
+}
 
-function viewRoles() {
-    connection.query("SELECT * FROM role", function(err, res) {
-        if (err) {
-            throw err;
-        }
-        console.table(res);
-        start();
-    });
-};
+// ===========================
+//function viewEmployee, viewDepartment, viewRoles no longer neccessary but have great references for future use.
 
-///need to id the employee (ask for name)
-// make changes to the employee details
-// update the db
-// display the updated table
+// function viewEmployees() {
+//     connection.query("SELECT * FROM employee", function(err, res) {
+//         if (err) {
+//             throw err;
+//         }
+//         console.table(res);
+//         start();
+//     });
+// };
+
+// function viewDepartment() {
+//     connection.query("SELECT * FROM department", function(err, res) {
+//         if (err) {
+//             throw err;
+//         }
+//         console.table(res);
+//         start();
+//     });
+// };
+
+// function viewRoles() {
+//     connection.query("SELECT * FROM role", function(err, res) {
+//         if (err) {
+//             throw err;
+//         }
+//         console.table(res);
+//         start();
+//     });
+// };
