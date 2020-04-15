@@ -68,7 +68,30 @@ function start() {
                     break;
                 case "View Employees":
                     // viewEmployees();
-                    viewAll('employee');
+                    let SQL = "SELECT "
+                    SQL += "employee.id, "
+                    SQL += "employee.first_name, "
+                    SQL += "employee.last_name, "
+                    SQL += "manager.first_name AS Manager_first_name, "
+                    SQL += "manager.last_name AS Manager_last_name, "
+                    SQL += "role.title,  "
+                    SQL += "role.salary,  "
+                    SQL += "department.name  "
+                    SQL += "FROM employee "
+                    SQL += "LEFT JOIN employee AS manager "
+                    SQL += "ON employee.manager_id = manager.id "
+                    SQL += "LEFT JOIN role "
+                    SQL += "ON employee.role_id = role.id "
+                    SQL += "LEFT JOIN department "
+                    SQL += "ON role.department_id = department.id "
+
+                    connection.query(SQL, function(err, employees) {
+                        if (err) throw err;
+
+                        console.table(employees)
+
+                        start()
+                    })
                     break;
                 case "Update employee role":
                     updateEmployee();
@@ -198,6 +221,12 @@ function updateValPairs(obj) {
 //     }
 //     return {}
 // }
+
+function returnByCondition(table, condition, callback) {
+    // console.log("returnAll -> callback", callback)
+
+    connection.query("SELECT * FROM ?? WHERE " + condition, [table], callback);
+}
 
 function returnAll(table, callback) {
     // console.log("returnAll -> callback", callback)
@@ -332,60 +361,69 @@ function addDepartment() {
 };
 
 function employeesByManager() {
-    returnAll('employee', function(err, employees) {
+    const condition = "role_id = 4"
+    returnByCondition('employee', condition, function(err, employees) {
         if (err) throw err;
 
-        const emp_choices = employees.map(row => ({
+        const manager_choices = employees.map(row => ({
             name: row.last_name + ", " + row.first_name,
             // name: row.manager_id + " " + row.last_name + ", " + row.first_name,
             value: row.id
                 ///add code here to filer managers only
         }))
 
-
         inquirer
             .prompt({
-                name: "managers",
+                name: "manager",
                 type: "list",
                 message: "Which manager would you like to view?",
-                choices: emp_choices
+                choices: manager_choices
+            })
+            .then(answers => {
+                const previous = "SELECT employee.first_name, employee.last_name, manager.first_name AS manager FROM employee JOIN employee as manager ON employee.manager_id = manager.id WHERE manager.first_name = ?"
+
+                let SQL = "SELECT "
+                SQL += "employee.id, "
+                SQL += "employee.first_name, "
+                SQL += "employee.last_name, "
+                SQL += "employee.last_name, "
+                SQL += "role.title "
+                SQL += "FROM employee "
+                SQL += "LEFT JOIN role "
+                SQL += "ON employee.role_id = role.id "
+                SQL += "WHERE employee.manager_id = ?"
+
+                connection.query(SQL, [answers.manager], (err, res) => {
+                    if (err) { throw err }
+                    console.table(res)
+                    start()
+                })
 
             })
     })
 }
 
 function deleteEmployee() {
-    connection.query("SELECT * FROM employee", function(req, res) {
-        //if (err) throw error;
-
-        const employeeNames = res.map(employee => {
-            return employee.first_name + " " + employee.last_name;
-        });
-        console.log(employeeNames);
-
+    connection.query("SELECT * FROM employee", function(err, employees) {
+        if (err) throw err;
         inquirer
             .prompt([{
-                name: "employeeName",
+                name: "id",
                 type: "list",
                 message: "Which employee would you like to delete?",
-                choices: employeeNames
+                choices: employees.map(employee => ({ name: employee.first_name + " " + employee.last_name, value: employee.id }))
             }])
             .then(function(answer) {
-                // console.log("inside .then", answer.employeeName);
-                const fullName = answer.employeeName
 
-                console.log(fullName)
-                connection.query(
-
-                    "DELETE FROM employee WHERE ? AND ?", [{ first_name: fullName[0] }, { last_name: fullName[1] }],
+                connection.query("DELETE FROM employee WHERE id = ?", [answer.id],
                     function(err) {
                         if (err) {
                             throw (err);
                         }
                         console.log("Employee Deleted!")
+                        start();
                     }
                 );
-                start();
             })
     })
 }
