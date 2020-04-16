@@ -42,7 +42,7 @@
             
  # Contact
             
- <img src="https://avatars2.githubusercontent.com/u/31394631?v=4" alt="avatar" style="border-radius: 64px" width="60"/>
+ <img src="https://avatars2.githubusercontent.com/u/31394631?v=4" alt="avatar" style="border-radius: 100px" width="100"/>
             
  markprodehl@gmail.com           
             
