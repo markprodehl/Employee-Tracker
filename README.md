@@ -38,7 +38,7 @@
             
  # Questions
             
- The user is given a sequence of options to choose select ranging from adding/deleting/editing Departments, Roles and Employees. A list of employees with all corresponding HR information, including salaries, can be accessed by choosing the “View Employees” option. Manager employee reports can be accessed by selecting the “View Employees By Manager” option.
+ The user is given a list of options to select ranging from adding/deleting/editing Departments, Roles and Employees. A list of employees with all corresponding HR information, including salaries, can be accessed by choosing the “View Employees” option. Manager employee reports can be accessed by selecting the “View Employees By Manager” option.
             
  # Contact
             
